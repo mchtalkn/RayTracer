@@ -8,11 +8,14 @@ using namespace parser;
 #ifndef GIT_ALGEBRA_H
 #define GIT_ALGEBRA_H
 
-Vec3f operator +(Vec3f lhs, Vec3f rhs);
-Vec3f operator -(Vec3f lhs, Vec3f rhs);
-
-float dotProduct(Vec3f , Vec3f);
-float crossProduct(Vec3f , Vec3f);
+Vec3f operator +(Vec3f lhs, Vec3f& rhs);
+Vec3f operator -(Vec3f lhs, Vec3f& rhs);
+Vec3f operator *(Vec3f lhs, float rhs);
+Vec3f operator *(float lhs, Vec3f& rhs);
+float dotProduct(Vec3f& lhs, Vec3f& rhs);
+Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs);
+Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs);
+float determinant(Vec3f v1, Vec3f v2, Vec3f v3);
 
 
 

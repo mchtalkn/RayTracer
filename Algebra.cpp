@@ -3,7 +3,7 @@
 //
 #include "Algebra.h"
 
-Vec3f operator+(Vec3f lhs, Vec3f rhs)
+Vec3f operator+(Vec3f lhs, Vec3f& rhs)
 {
 	// TODO: insert return statement here
 	Vec3f r;
@@ -13,7 +13,38 @@ Vec3f operator+(Vec3f lhs, Vec3f rhs)
 	return r;
 }
 
-Vec3f operator-(Vec3f lhs, Vec3f rhs)
+Vec3f operator-(Vec3f lhs, Vec3f& rhs)
 {
 	return Vec3f();
 }
+
+Vec3f operator*(Vec3f lhs, float rhs)
+{
+	return Vec3f();
+}
+
+Vec3f operator*(float lhs, Vec3f& rhs)
+{
+	return Vec3f();
+}
+
+float dotProduct(Vec3f& lhs, Vec3f& rhs)
+{
+	return 0.0f;
+}
+
+Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs)
+{
+	return Vec3f();
+}
+
+Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs)
+{
+	return Vec3f();
+}
+
+float determinant(Vec3f v1, Vec3f v2, Vec3f v3)
+{
+	return 0.0f;
+}
+

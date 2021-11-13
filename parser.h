@@ -55,6 +55,7 @@ namespace parser
         int v0_id;
         int v1_id;
         int v2_id;
+        Vec3f normal;
     };
 
     struct Mesh
