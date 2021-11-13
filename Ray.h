@@ -15,4 +15,6 @@ public:
 	Vec3f calculateColor(Sphere& s);
 	Vec3f calculateColor(Mesh& m);
 	Vec3f calculateColor(Triangle& t);
+	Vec3f calculateColor(Vec3f& intersection, Vec3f& normal, Material& material);
+	Vec3f calculateColor();
 };

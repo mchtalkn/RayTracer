@@ -43,3 +43,13 @@ Vec3f Ray::calculateColor(Triangle& t)
 {
     return Vec3f();
 }
+
+Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material)
+{
+    return Vec3f();
+}
+
+Vec3f Ray::calculateColor()
+{
+    return Vec3f();
+}
