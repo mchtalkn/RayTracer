@@ -64,7 +64,7 @@ Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs)
     return r;
 }
 
-float determinant(Vec3f v1, Vec3f v2, Vec3f v3)
+float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3)
 {
     float r = v1.x*v2.y*v3.z  -  v1.x*v2.z*v3.y  -  v1.y*v2.x*v3.z  +  v1.y*v2.z*v3.x  +  v1.z*v2.x*v3.y  -  v1.z*v2.y*v3.z ;
     return r;

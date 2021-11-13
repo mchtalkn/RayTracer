@@ -15,7 +15,7 @@ Vec3f operator *(float lhs, Vec3f& rhs);
 float dotProduct(Vec3f& lhs, Vec3f& rhs);
 Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs);
 Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs);
-float determinant(Vec3f v1, Vec3f v2, Vec3f v3);
+float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3);
 Vec3f& normalize(Vec3f& v);
 
 
