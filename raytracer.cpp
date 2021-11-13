@@ -1,8 +1,9 @@
 #include <iostream>
 #include "parser.h"
 #include "ppm.h"
-
+#include "Algebra.h"
 typedef unsigned char RGB[3];
+using namespace parser;
 
 int main(int argc, char* argv[])
 {
@@ -46,7 +47,12 @@ int main(int argc, char* argv[])
             image[i++] = BAR_COLOR[colIdx][2];
         }
     }
-
-    write_ppm("/Users/selin/Desktop/477\\ HW1/git", image, width, height);
+   
+    //swrite_ppm("/Users/selin/Desktop/477\\ HW1/git", image, width, height);
+    Vec3f r,l,v;
+    r.y = 3;
+    l.y = 4;
+    v = r + l;
+    v + r;
 
 }
