@@ -47,6 +47,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    write_ppm("/mnt/d/ceng477hw1/ceng477hw1/myout/test.ppm", image, width, height);
+    write_ppm("/Users/selin/Desktop/477\\ HW1/git", image, width, height);
 
 }
