@@ -48,3 +48,8 @@ float determinant(Vec3f v1, Vec3f v2, Vec3f v3)
 	return 0.0f;
 }
 
+Vec3f& normalize(Vec3f& v)
+{
+	// TODO: insert return statement here
+}
+

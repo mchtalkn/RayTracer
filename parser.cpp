@@ -216,3 +216,20 @@ void parser::Scene::loadFromXml(const std::string &filepath)
         element = element->NextSiblingElement("Sphere");
     }
 }
+
+void parser::Scene::render()
+{
+}
+
+void parser::Scene::renderCamera(Camera& c)
+{
+}
+
+Ray parser::Camera::generateRay(int i, int j)
+{
+    return Ray();
+}
+
+void parser::Camera::render()
+{
+}

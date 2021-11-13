@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
-
+#include "Ray.h"
+Scene scene;
+int recursionLimit;
 namespace parser
 {
     //Notice that all the structures are as simple as possible
@@ -32,6 +34,10 @@ namespace parser
         float near_distance;
         int image_width, image_height;
         std::string image_name;
+        
+        //functions
+        Ray generateRay(int i, int j);
+        void render();
     };
 
     struct PointLight
@@ -94,6 +100,7 @@ namespace parser
 
         //Functions
         void loadFromXml(const std::string &filepath);
+        void render();
     };
 }
 
