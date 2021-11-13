@@ -3,6 +3,8 @@
 #include <sstream>
 #include <stdexcept>
 
+using namespace std;
+
 void parser::Scene::loadFromXml(const std::string &filepath)
 {
     tinyxml2::XMLDocument file;
@@ -215,21 +217,4 @@ void parser::Scene::loadFromXml(const std::string &filepath)
         spheres.push_back(sphere);
         element = element->NextSiblingElement("Sphere");
     }
-}
-
-void parser::Scene::render()
-{
-}
-
-void parser::Scene::renderCamera(Camera& c)
-{
-}
-
-Ray parser::Camera::generateRay(int i, int j)
-{
-    return Ray();
-}
-
-void parser::Camera::render()
-{
 }

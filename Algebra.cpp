@@ -70,8 +70,9 @@ float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3)
     return r;
 }
 
-Vec3f& normalize(Vec3f& v)
+Vec3f normalize(Vec3f& v)
 {
+    return v;
 	// TODO: insert return statement here
 }
 

@@ -1,5 +1,9 @@
 #include "Ray.h"
 
+Ray::Ray()
+{
+}
+
 Ray::Ray(Vec3f& e, Vec3f& d)
 {
 }
@@ -50,6 +54,16 @@ Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material
 }
 
 Vec3f Ray::calculateColor()
+{
+    return Vec3f();
+}
+
+Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material)
+{
+    return Vec3f();
+}
+
+Vec3f Ray::calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material)
 {
     return Vec3f();
 }
