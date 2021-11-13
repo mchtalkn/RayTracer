@@ -18,7 +18,7 @@ Vec3f operator-(Vec3f lhs, Vec3f& rhs)
     Vec3f r;
     r.x = lhs.x - rhs.x;
     r.y = lhs.y - rhs.y;
-    r.z = lhs.z -s rhs.z;
+    r.z = lhs.z - rhs.z;
     return r;
 }
 
