@@ -1,8 +1,7 @@
 #include <iostream>
-#include "parser.h"
 #include "ppm.h"
+#include "Ray.h"
 #include "Algebra.h"
-#include "World.cpp"
 typedef unsigned char RGB[3];
 using namespace parser;
 

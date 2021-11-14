@@ -1,9 +1,10 @@
 #pragma once
-#include "Algebra.h"
+#include "parser.h"
 
 #ifndef GIT_RAY_H
 #define GIT_RAY_H
 
+using namespace parser;
 class Ray
 {
 public:

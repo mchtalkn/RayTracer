@@ -216,20 +216,18 @@ void parser::Scene::loadFromXml(const std::string &filepath)
         element = element->NextSiblingElement("Sphere");
     }
 }
-
+// ?????? on tane render var
 void parser::Scene::render()
 {
 }
 
-void parser::Scene::renderCamera(Camera& c)
-{
-}
+// ?????? on tane render var
+//void parser::Scene::renderCamera(Camera& c)
+//{
+//}
 
-Ray parser::Camera::generateRay(int i, int j)
-{
-    return Ray();
-}
 
+// ?????? on tane render var
 void parser::Camera::render()
 {
 }

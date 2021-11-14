@@ -6,12 +6,13 @@
 // then calculating colors and shading/reflections
 // are handled in this file.
 
-
+#include "Ray.h"
 /* generate new ray from camera to ith&jth pixel.
  * return: generated ray.
 */
 Ray generateRay(int i, int j){
-    Ray res;
     // TO DO
-    return res;
+    Vec3f a,b;
+    a.x=a.y=a.z=b.x=b.y=b.z=0;
+    return Ray(a,b);
 }
