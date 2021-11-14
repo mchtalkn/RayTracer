@@ -1,11 +1,15 @@
-#ifndef __HW1__PARSER__
-#define __HW1__PARSER__
+#pragma once
 
 #include <string>
 #include <vector>
 #include "Ray.h"
-Scene scene;
-int recursionLimit;
+
+#ifndef __HW1__PARSER__
+#define __HW1__PARSER__
+
+
+//Scene scene;
+//int recursionLimit;       scene icinde zaten tanimli gelmis :)
 namespace parser
 {
     //Notice that all the structures are as simple as possible
@@ -36,7 +40,6 @@ namespace parser
         std::string image_name;
         
         //functions
-        Ray generateRay(int i, int j);
         void render();
     };
 
