@@ -14,10 +14,10 @@ public:
 	Ray(Vec3f& e, Vec3f& d);
 	Vec3f positionT(float t);
 
-    Vec3f intersect(Sphere& s); // intersection coordinates ??
-    Vec3f intersect(Face& f);
-    Vec3f intersect(Mesh& m);
-    Vec3f intersect(Triangle& t);
+    float intersect(Sphere& s); // intersection coordinates ??
+    float intersect(Face& f);
+    float intersect(Mesh& m);
+    float intersect(Triangle& t);
 
 	Vec3f calculateColor(Sphere& s);
 	Vec3f calculateColor(Mesh& m);

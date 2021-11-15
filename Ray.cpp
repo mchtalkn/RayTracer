@@ -10,22 +10,22 @@ Vec3f Ray::positionT(float t)
     return Vec3f();
 }
 
-Vec3f Ray::intersect(Sphere& s)
+float Ray::intersect(Sphere& s)
 {
     return Vec3f();
 }
 
-Vec3f Ray::intersect(Face& f)
+float Ray::intersect(Face& f)
 {
     return Vec3f();
 }
 
-Vec3f Ray::intersect(Mesh& m)
+float Ray::intersect(Mesh& m)
 {
     return Vec3f();
 }
 
-Vec3f Ray::intersect(Triangle& t)
+float Ray::intersect(Triangle& t)
 {
     return Vec3f();
 }
