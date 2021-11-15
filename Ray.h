@@ -25,4 +25,3 @@ public:
 	Vec3f calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material);
 };
 
-#endif //GIT_RAY_H

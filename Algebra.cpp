@@ -73,7 +73,7 @@ float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3)
     return r;
 }
 
-Vec3f normalize(Vec3f& v)
+Vec3f& normalize(Vec3f& v)
 {
     float norm = sqrt (v.x*v.x + v.y*v.y + v.z*v.z) ;
     if(!norm){

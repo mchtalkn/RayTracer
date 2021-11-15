@@ -16,22 +16,22 @@ Vec3f Ray::positionT(float t)
 
 float Ray::intersect(Sphere& s)
 {
-    return Vec3f();
+    return 0;
 }
 
 float Ray::intersect(Face& f)
 {
-    return Vec3f();
+    return 0;
 }
 
 float Ray::intersect(Mesh& m)
 {
-    return Vec3f();
+    return 0;
 }
 
 float Ray::intersect(Triangle& t)
 {
-    return Vec3f();
+    return 0;
 }
 
 Vec3f Ray::calculateColor(Sphere& s)
