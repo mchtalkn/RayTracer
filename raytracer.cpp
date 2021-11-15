@@ -1,6 +1,6 @@
 #include <iostream>
-#include "parser.h"
 #include "ppm.h"
+#include "Ray.h"
 #include "Algebra.h"
 typedef unsigned char RGB[3];
 using namespace parser;
@@ -49,10 +49,12 @@ int main(int argc, char* argv[])
     }
    
     //swrite_ppm("/Users/selin/Desktop/477\\ HW1/git", image, width, height);
-    Vec3f r,l,v;
-    r.y = 3;
-    l.y = 4;
-    v = r + l;
-    v + r;
+    //Vec3f r,l,v;
+    //r.y = 3;
+    //l.y = 4;
+    //v = r + l;
+    //v + r;
 
+
+    // For example : from each camera call generate ray and record those rays into a vector.
 }

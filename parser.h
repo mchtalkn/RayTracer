@@ -1,3 +1,8 @@
+#pragma once
+
+#include <string>
+#include <vector>
+
 #ifndef __HW1__PARSER__
 #define __HW1__PARSER__
 

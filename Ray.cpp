@@ -1,4 +1,5 @@
 #include "Ray.h"
+#include "Algebra.h"
 
 Ray::Ray()
 {
@@ -15,22 +16,22 @@ Vec3f Ray::positionT(float t)
 
 float Ray::intersect(Sphere& s)
 {
-    return 0.0f;
+    return Vec3f();
 }
 
 float Ray::intersect(Face& f)
 {
-    return 0.0f;
+    return Vec3f();
 }
 
 float Ray::intersect(Mesh& m)
 {
-    return 0.0f;
+    return Vec3f();
 }
 
 float Ray::intersect(Triangle& t)
 {
-    return 0.0f;
+    return Vec3f();
 }
 
 Vec3f Ray::calculateColor(Sphere& s)
