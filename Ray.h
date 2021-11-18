@@ -14,17 +14,13 @@ public:
 
     float intersect(Sphere& s); // returns t
     float intersect(Face& f);
-    float intersect(Mesh& m);
-    float intersect(Triangle& t);
 
-	Vec3f calculateColor(Sphere& s);    // returns: RGB
-	Vec3f calculateColor(Mesh& m);      // face'lerden olusan bir materyal
-	Vec3f calculateColor(Triangle& t);  // tek bir face'ten olusan obje
-
+	Vec3f calculateColor(Sphere& s);// returns: RGB
+	Vec3f calculateColor(Face& f);
 	Vec3f calculateColor(Vec3f& intersection, Vec3f& normal, Material& material);
-	Vec3f calculateColor();
-
+	Vec3f calculateColor(float minDistance);
 	Vec3f calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material);
 	Vec3f calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material);
+	Ray generateReflection(Vec3f position, Vec3f normal);
 };
 

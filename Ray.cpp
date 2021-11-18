@@ -5,7 +5,7 @@ Ray::Ray()
 {
 }
 
-Ray::Ray(Vec3f& e_, Vec3f& d_):e(e_),d(d_)
+Ray::Ray(Vec3f& e_, Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
 }
 
@@ -37,29 +37,15 @@ float Ray::intersect(Face& f)
     return 0;
 }
 
-float Ray::intersect(Mesh& m)
-{
-    return 0;
-}
-
-float Ray::intersect(Triangle& t)
-{
-    return 0;
-}
 
 Vec3f Ray::calculateColor(Sphere& s)
 {
     return Vec3f();
 }
 
-Vec3f Ray::calculateColor(Mesh& m)
+Vec3f Ray::calculateColor(Face& f)
 {
-    return Vec3f();
-}
-
-Vec3f Ray::calculateColor(Triangle& t)
-{
-    return Vec3f();
+	return Vec3f();
 }
 
 Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material)
@@ -67,9 +53,59 @@ Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material
     return Vec3f();
 }
 
-Vec3f Ray::calculateColor()
+Vec3f Ray::calculateColor(float minDistance)
 {
-    return Vec3f();
+	float t, tmpt,reflectionConstant;
+	Vec3f color,normal,intersection,position;
+	color.x = 0;
+	color.y = 0;
+	color.z = 0;
+	if (recursion == -1) return color;
+	Ray newRay;
+	Sphere* sphere = nullptr;
+	Triangle* triange = nullptr;
+	Mesh* mesh = nullptr;
+	Face* face = nullptr;
+	Material* material;
+	int bestType = 0;
+	
+	for (Sphere& s : parser::scene.spheres) {
+		tmpt = intersect(s);
+		if (tmpt > minDistance && tmpt < t) {
+			t = tmpt;
+			sphere = &s;
+			material = &s.material; 
+			normal = intersection - sphere->center_vertex;
+		}
+	}
+	for (Triangle& tr : parser::scene.triangles) {
+		Face& f = tr.indices;
+		tmpt = intersect(f);
+		if (tmpt > minDistance && tmpt < t) {
+			t = tmpt;
+			face = &f;
+			material = &tr.material; 
+			normal = face->normal;
+		}
+	}
+	for (Mesh& m : parser::scene.meshes) {
+		for (Face& f : m.faces) {
+			tmpt = intersect(f);
+			if (tmpt > minDistance && tmpt < t) {
+				t = tmpt;
+				face = &f;
+				material = &m.material; 
+				normal = face->normal;
+			}
+		}	
+	}
+	color = calculateColor(intersection, normal, *material);
+	if (recursion != 0 && !material->is_mirror ) {
+		newRay = generateReflection(intersection, normal);
+		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
+		return color + hadamardProduct(reflectionColor, material->mirror);
+	}
+    else return color;
 }
 
 Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material)
@@ -80,4 +116,9 @@ Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& materi
 Vec3f Ray::calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material)
 {
     return Vec3f();
+}
+
+Ray Ray::generateReflection(Vec3f position, Vec3f normal)
+{
+	return Ray();
 }

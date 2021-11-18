@@ -1,4 +1,5 @@
 #include "CameraHandler.h"
+#include "ppm.h"
 
 CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 {
@@ -15,7 +16,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
 	e = cam.position;
-	image =(Vec3i**)malloc(sizeof(Vec3f)*nx*ny);
+	image =(Vec3i*)malloc(sizeof(Vec3f)*nx*ny);
 }
 
 Ray CameraHandler::generateRay(int i, int j)
@@ -38,11 +39,22 @@ Ray CameraHandler::generateRay()
 void CameraHandler::render()
 {
 	Ray r;
-	float t;
+	float t,tmpt;
+	Sphere* sphere = nullptr;
+	Triangle* triange = nullptr;
+	Mesh* mesh=nullptr;
+	int sphereid, triangeid, mehsid,bestType = 0;
 	for (int j = 0; j < ny; j++) {
 		for (int i = 0; i < nx; i++) {
 			r = generateRay(i, j);
-			for (Sphere& s : parser::scene.spheres);
+			Vec3f rgbf = r.calculateColor(camera.near_distance);
+			Vec3i rgbi;
+			// min max might be checked if neccessary and not checked in calculate color
+			rgbi.x = rgbf.x;
+			rgbi.y = rgbf.y;
+			rgbi.z = rgbf.z;
+			image[ny * j + nx * i] = rgbi;
 		}
 	}
+	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
 }
