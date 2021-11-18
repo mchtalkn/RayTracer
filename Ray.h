@@ -13,14 +13,11 @@ public:
 
     float intersect(Sphere& s); // intersection coordinates ??
     float intersect(Face& f);
-    float intersect(Mesh& m);
-    float intersect(Triangle& t);
 
 	Vec3f calculateColor(Sphere& s);
-	Vec3f calculateColor(Mesh& m);
-	Vec3f calculateColor(Triangle& t);
+	Vec3f calculateColor(Face& f);
 	Vec3f calculateColor(Vec3f& intersection, Vec3f& normal, Material& material);
-	Vec3f calculateColor();
+	Vec3f calculateColor(float minDistance);
 	Vec3f calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material);
 	Vec3f calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material);
 };
