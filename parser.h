@@ -74,6 +74,7 @@ namespace parser
     struct Triangle
     {
         int material_id;
+        Vec3f normal;
         Material material;
         Face indices;
     };
