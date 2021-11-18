@@ -20,5 +20,6 @@ public:
 	Vec3f calculateColor(float minDistance);
 	Vec3f calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material);
 	Vec3f calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material);
+	Ray generateReflection(Vec3f position, Vec3f normal);
 };
 

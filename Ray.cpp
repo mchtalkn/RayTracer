@@ -42,18 +42,18 @@ Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material
 
 Vec3f Ray::calculateColor(float minDistance)
 {
-	float t, tmpt;
-	Vec3f color,normal,intersection;
+	float t, tmpt,reflectionConstant;
+	Vec3f color,normal,intersection,position;
 	color.x = 0;
 	color.y = 0;
 	color.z = 0;
 	if (recursion == -1) return color;
-	Ray newRay = *this;
-	newRay.recursion--;
+	Ray newRay;
 	Sphere* sphere = nullptr;
 	Triangle* triange = nullptr;
 	Mesh* mesh = nullptr;
 	Face* face = nullptr;
+	Material* material;
 	int bestType = 0;
 	
 	for (Sphere& s : parser::scene.spheres) {
@@ -62,6 +62,7 @@ Vec3f Ray::calculateColor(float minDistance)
 			t = tmpt;
 			sphere = &s;
 			bestType = 1;
+			material; //tr.material
 		}
 	}
 	for (Triangle& tr : parser::scene.triangles) {
@@ -71,6 +72,7 @@ Vec3f Ray::calculateColor(float minDistance)
 			t = tmpt;
 			face = &f;
 			bestType = 2;
+			material; //tr.material
 		}
 	}
 	for (Mesh& m : parser::scene.meshes) {
@@ -80,6 +82,7 @@ Vec3f Ray::calculateColor(float minDistance)
 				t = tmpt;
 				face = &f;
 				bestType = 2;
+				material; //tr.material
 			}
 		}	
 	}
@@ -90,15 +93,23 @@ Vec3f Ray::calculateColor(float minDistance)
 		break;
 	case 1:
 		color = calculateColor(*sphere);
-
+		intersection = positionT(t);
+		normal = intersection;// - sphere.center
 		break;
 	case 2:
 		color = calculateColor(*face);
+		intersection = positionT(t);
+		normal; // = face.normal
 		break;
 	default:
 		break;
 	}
-    return Vec3f();
+	if (recursion != 0 && !material->is_mirror ) {
+		newRay = generateReflection(intersection, normal);
+		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
+		return color + hadamardProduct(reflectionColor, material->mirror);
+	}
+    else return color;
 }
 
 Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material)
@@ -109,4 +120,9 @@ Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& materi
 Vec3f Ray::calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material)
 {
     return Vec3f();
+}
+
+Ray Ray::generateReflection(Vec3f position, Vec3f normal)
+{
+	return Ray();
 }
