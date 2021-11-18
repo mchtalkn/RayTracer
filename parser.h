@@ -12,6 +12,7 @@ namespace parser
 {
     //Notice that all the structures are as simple as possible
     //so that you are not enforced to adopt any style or design.
+    
     struct Vec3f
     {
         float x, y, z;
@@ -99,6 +100,8 @@ namespace parser
 
         //Functions
         void loadFromXml(const std::string &filepath);
-    };
+    };    
+    extern Scene scene;
 }
+
 #endif

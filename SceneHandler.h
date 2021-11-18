@@ -9,8 +9,7 @@ using namespace std;
 class SceneHandler
 {
 public:
-	static Scene scene;
+	SceneHandler();
 	vector<CameraHandler> cameras;
-	SceneHandler(Scene& s);
 	void render();
 };

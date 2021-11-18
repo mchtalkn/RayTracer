@@ -15,6 +15,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
 	e = cam.position;
+	image =(Vec3i**)malloc(sizeof(Vec3f)*nx*ny);
 }
 
 Ray CameraHandler::generateRay(int i, int j)
@@ -36,4 +37,12 @@ Ray CameraHandler::generateRay()
 
 void CameraHandler::render()
 {
+	Ray r;
+	float t;
+	for (int j = 0; j < ny; j++) {
+		for (int i = 0; i < nx; i++) {
+			r = generateRay(i, j);
+			for (Sphere& s : parser::scene.spheres);
+		}
+	}
 }

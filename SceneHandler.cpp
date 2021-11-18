@@ -1,9 +1,8 @@
 #include "SceneHandler.h"
-
-Scene SceneHandler::scene;
-SceneHandler::SceneHandler(Scene& s)
+using namespace parser;
+Scene parser::scene;
+SceneHandler::SceneHandler()
 {
-	scene = s;
 	for (Camera& c : scene.cameras) {
 		cameras.push_back(CameraHandler(c));
 	}

@@ -4,6 +4,7 @@ using namespace parser;
 class CameraHandler
 {
 public:
+	Vec3i** image;
 	Camera& camera;
 	Vec3f q,u,v,w,e;
 	int nx, ny;
@@ -11,7 +12,7 @@ public:
 	int pixelId = 0;
 	CameraHandler(Camera& camera);
 	Ray generateRay(int i, int j);
-	Ray generateRay(); // bunu simdilik implement etmeye gerek yok optimizasyon için ileride bi bakılır
+	Ray generateRay(); //not needed
 	void render();
 
 };

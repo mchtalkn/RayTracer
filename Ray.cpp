@@ -5,7 +5,7 @@ Ray::Ray()
 {
 }
 
-Ray::Ray(Vec3f& e, Vec3f& d)
+Ray::Ray(Vec3f& e_, Vec3f& d_):e(e_),d(d_)
 {
 }
 
