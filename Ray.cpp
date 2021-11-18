@@ -14,9 +14,22 @@ Vec3f Ray::positionT(float t)
     return Vec3f();
 }
 
+/* return -1 if does not intersect.
+ *
+*/
 float Ray::intersect(Sphere& s)
 {
-    return 0;
+    Vec3f diff = s.center_vertex - this->e;
+    float B = 2 * dotProduct(this->d,  diff );
+    float A = dotProduct(this->d , this->d );
+    float C = dotProduct(diff, diff ) - s.radius*s.radius;
+
+    float discriminant = B*B - 4*A*C;
+    if(discriminant < 0 ) return -1;
+
+    float t1 = (-B + sqrt(discriminant) ) / (2*A) ;
+    float t2 = (-B - sqrt(discriminant) ) / (2*A) ;
+    return t1<t2 ? t1 : t2;
 }
 
 float Ray::intersect(Face& f)

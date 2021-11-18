@@ -67,19 +67,23 @@ namespace parser
     struct Mesh
     {
         int material_id;
+        Material material;
         std::vector<Face> faces;
     };
 
     struct Triangle
     {
         int material_id;
+        Material material;
         Face indices;
     };
 
     struct Sphere
     {
         int material_id;
+        Material material;  //  eklendi
         int center_vertex_id;
+        Vec3f center_vertex;    //  eklendi
         float radius;
     };
 
