@@ -74,8 +74,8 @@ Vec3f Ray::calculateColor(float minDistance)
 		if (tmpt > minDistance && tmpt < t) {
 			t = tmpt;
 			sphere = &s;
-			bestType = 1;
-			material; //tr.material
+			material = &s.material; 
+			normal = intersection - sphere->center_vertex;
 		}
 	}
 	for (Triangle& tr : parser::scene.triangles) {
@@ -84,8 +84,8 @@ Vec3f Ray::calculateColor(float minDistance)
 		if (tmpt > minDistance && tmpt < t) {
 			t = tmpt;
 			face = &f;
-			bestType = 2;
-			material; //tr.material
+			material = &tr.material; 
+			normal = face->normal;
 		}
 	}
 	for (Mesh& m : parser::scene.meshes) {
@@ -94,29 +94,12 @@ Vec3f Ray::calculateColor(float minDistance)
 			if (tmpt > minDistance && tmpt < t) {
 				t = tmpt;
 				face = &f;
-				bestType = 2;
-				material; //tr.material
+				material = &m.material; 
+				normal = face->normal;
 			}
 		}	
 	}
-	switch (bestType)
-	{
-	case 0:
-		return color;
-		break;
-	case 1:
-		color = calculateColor(*sphere);
-		intersection = positionT(t);
-		normal = intersection;// - sphere.center
-		break;
-	case 2:
-		color = calculateColor(*face);
-		intersection = positionT(t);
-		normal; // = face.normal
-		break;
-	default:
-		break;
-	}
+	color = calculateColor(intersection, normal, *material);
 	if (recursion != 0 && !material->is_mirror ) {
 		newRay = generateReflection(intersection, normal);
 		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
