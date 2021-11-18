@@ -6,7 +6,7 @@
 using namespace std;
 #define LOG_ERR(message) cout << endl << message << endl;
 
-Vec3f operator+(Vec3f lhs, Vec3f& rhs)
+Vec3f operator+(Vec3f lhs, const Vec3f& rhs)
 {
 	// TODO: insert return statement here
 	Vec3f r;
@@ -16,7 +16,7 @@ Vec3f operator+(Vec3f lhs, Vec3f& rhs)
 	return r;
 }
 
-Vec3f operator-(Vec3f lhs, Vec3f& rhs)
+Vec3f operator-(Vec3f lhs, const Vec3f& rhs)
 {
     Vec3f r;
     r.x = lhs.x - rhs.x;
@@ -34,7 +34,7 @@ Vec3f operator*(Vec3f lhs, float rhs)
     return r;
 }
 
-Vec3f operator*(float lhs, Vec3f& rhs)
+Vec3f operator*(float lhs, const Vec3f& rhs)
 {
     Vec3f r;
     r.x = lhs * rhs.x;

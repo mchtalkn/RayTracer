@@ -15,10 +15,10 @@
 
 using namespace parser;
 
-Vec3f operator +(Vec3f lhs, Vec3f& rhs);
-Vec3f operator -(Vec3f lhs, Vec3f& rhs);
+Vec3f operator +(Vec3f lhs, const Vec3f& rhs);
+Vec3f operator -(Vec3f lhs, const Vec3f& rhs);
 Vec3f operator *(Vec3f lhs, float rhs);
-Vec3f operator *(float lhs, Vec3f& rhs);
+Vec3f operator *(float lhs, const Vec3f& rhs);
 float dotProduct(Vec3f& lhs, Vec3f& rhs);
 Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs);
 Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs);
