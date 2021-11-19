@@ -195,5 +195,10 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
-	return Ray();
+	Vec3f reflectionD;
+	float cos = dotProduct(normal, -1 * d);
+	reflectionD = d + 2 * normal * cos;
+	Ray r(position, reflectionD);
+	r.recursion = recursion - 1;
+	return r;
 }
