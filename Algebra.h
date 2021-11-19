@@ -12,6 +12,8 @@
 #ifndef GIT_ALGEBRA_H
 #define GIT_ALGEBRA_H
 
+#define LOG_ERR(message) cout << endl << message << endl;
+
 
 using namespace parser;
 

@@ -5,7 +5,6 @@
 #include "math.h"
 
 using namespace std;
-#define LOG_ERR(message) cout << endl << message << endl;
 
 Vec3f operator+(Vec3f lhs, const Vec3f& rhs)
 {
