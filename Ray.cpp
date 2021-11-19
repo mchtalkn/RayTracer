@@ -11,9 +11,9 @@ Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.m
 {
 }
 
-Vec3f Ray::positionT(float t)
+inline Vec3f Ray::positionT(float t)
 {
-    return Vec3f();
+    return e+d*t;
 }
 
 /* return -1 if does not intersect.
@@ -72,15 +72,6 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 }
 
 
-Vec3f Ray::calculateColor(const Sphere& s)
-{
-    return Vec3f();
-}
-
-Vec3f Ray::calculateColor(const Face& f)
-{
-	return Vec3f();
-}
 
 Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
