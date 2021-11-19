@@ -1,6 +1,7 @@
 #include "Ray.h"
 #include "Algebra.h"
 #include "math.h"
+#include <limits>
 using namespace std;
 using namespace parser;
 Ray::Ray()
@@ -46,7 +47,7 @@ float Ray::intersect(const Vec3f& position)
 
 bool Ray::checkObstacle(float minDistance, float maxDistance)
 {
-	float t;
+	float t = std::numeric_limits<float>::max();
 	for (Sphere& s : parser::scene.spheres) {
 		t = intersect(s);
 		if (t > minDistance && t < maxDistance) {
@@ -81,7 +82,7 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 
 Vec3f Ray::calculateColor(float minDistance)
 {
-	float t, tmpt,reflectionConstant;
+	float t = std::numeric_limits<float>::max(), tmpt = 0,reflectionConstant;
 	Vec3f color,normal,intersection,position;
 	color.x = 0;
 	color.y = 0;
