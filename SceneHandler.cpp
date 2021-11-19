@@ -27,5 +27,6 @@ SceneHandler::SceneHandler(string input)
 
 void SceneHandler::render()
 {
+    for (int i = 0; i < cameras.size(); i++) cameras[i].render();
 	for (CameraHandler& c : cameras) c.render();
 }

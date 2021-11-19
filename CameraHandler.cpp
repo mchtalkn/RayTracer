@@ -16,7 +16,9 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
 	e = cam.position;
-	image =(Vec3i*)malloc(sizeof(Vec3f)*nx*ny);
+	nx = cam.image_width;
+	ny = cam.image_height;
+	image = new unsigned char[nx*ny*3];
 }
 
 Ray CameraHandler::generateRay(int i, int j)
@@ -48,13 +50,11 @@ void CameraHandler::render()
 			rgbi.x = rgbf.x;
 			rgbi.y = rgbf.y;
 			rgbi.z = rgbf.z;
-			image[ny * j + nx * i] = rgbi;
+			image[ny * j +  i] = rgbi.x;
+			image[ny * j + i] = rgbi.y;
+			image[ny * j + i] = rgbi.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
 }
 
-CameraHandler::~CameraHandler()
-{
-	free(image);
-}
