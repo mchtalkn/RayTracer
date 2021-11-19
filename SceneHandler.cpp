@@ -22,6 +22,13 @@ SceneHandler::SceneHandler(string input)
     }
     for (Mesh& m : scene.meshes) {
         m.material = scene.materials[m.material_id - 1];
+        for(Face &f : m.faces){
+            Vec3f a = parser::scene.vertex_data[ f.v0_id - 1];
+            Vec3f b = parser::scene.vertex_data[ f.v1_id - 1];
+            Vec3f c = parser::scene.vertex_data[ f.v2_id - 1];
+
+            f.normal = crossProduct((c-b), (a-b));
+        }
     }
 }
 
