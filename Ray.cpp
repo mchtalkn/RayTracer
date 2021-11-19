@@ -28,7 +28,7 @@ float Ray::intersect(const Sphere& s)
     float C = dotProduct(diff, diff ) - s.radius*s.radius;
 
     float discriminant = B*B - 4*A*C;
-    if(discriminant < 10^-6 ) return -1;
+    if(discriminant < scene.shadow_ray_epsilon ) return -1;
 
     float t1 = (-B + sqrt(discriminant) ) / (2*A) ;
     float t2 = (-B - sqrt(discriminant) ) / (2*A) ;
@@ -41,7 +41,7 @@ float Ray::intersect(const Sphere& s)
 float Ray::intersect(const Face& f)
 {
     float product = dotProduct( f.normal, this->d);
-    if( product < 10^-6) return -1;
+    if( product < scene.shadow_ray_epsilon) return -1;
     Vec3f a = scene.vertex_data[f.v0_id];
     float t = (dotProduct(f.normal , (a-this->e))) / product;
     return t;
@@ -52,9 +52,12 @@ float Ray::intersect(const Vec3f& position)
 	return (e.x - position.x)/d.x;
 }
 
+/*
+ * verify intersection of the ray in the proper range.
+*/
 bool Ray::checkObstacle(float minDistance, float maxDistance)
 {
-	float t = std::numeric_limits<float>::max();
+	float t ; //= std::numeric_limits<float>::max();
 	for (Sphere& s : parser::scene.spheres) {
 		t = intersect(s);
 		if (t > minDistance && t < maxDistance) {
@@ -83,10 +86,12 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 
 Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
-
 	return hadamardProduct(scene.ambient_light,material.ambient) + calculateDiffuse(intersection, normal, material) + calculateSpecular(intersection, normal, material);
 }
 
+/* minDistance = epsilon
+ * for recursion level 1, minDistance = distance of scene
+ */
 Vec3f Ray::calculateColor(float minDistance)
 {
 	float t = std::numeric_limits<float>::max(), tmpt = 0;
