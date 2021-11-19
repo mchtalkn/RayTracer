@@ -26,7 +26,7 @@ Ray CameraHandler::generateRay(int i, int j)
 	float su, sv;
 	Vec3f s;
 	su = (i + 0.5) * suConstant;
-	sv = (i + 0.5) * svConstant;
+	sv = (j + 0.5) * svConstant;
 	s = q + u * su + v * sv;
 	Ray ray(e, s);
 	return ray;
