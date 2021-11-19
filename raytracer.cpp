@@ -2,15 +2,16 @@
 #include "ppm.h"
 #include "Ray.h"
 #include "Algebra.h"
+#include "SceneHandler.h"
 typedef unsigned char RGB[3];
 using namespace parser;
 
 int main(int argc, char* argv[])
 {
     // Sample usage for reading an XML scene file
-    parser::Scene scene;
+    //parser::Scene scene;
 
-    scene.loadFromXml(argv[1]);
+   // scene.loadFromXml(argv[1]);
 
     // The code below creates a test pattern and writes
     // it to a PPM file to demonstrate the usage of the
@@ -18,7 +19,7 @@ int main(int argc, char* argv[])
     //
     // Normally, you would be running your ray tracing
     // code here to produce the desired image.
-
+    /*
     const RGB BAR_COLOR[8] =
     {
         { 255, 255, 255 },  // 100% White
@@ -56,5 +57,7 @@ int main(int argc, char* argv[])
     //v + r;
 
 
-    // For example : from each camera call generate ray and record those rays into a vector.
+    // For example : from each camera call generate ray and record those rays into a vector.*/
+    SceneHandler s(argv[1]);
+    s.render();
 }
