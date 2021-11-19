@@ -12,7 +12,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	bottom = cam.near_plane.z;
 	top = cam.near_plane.w;
 	Vec3f m = cam.position + (cam.gaze * cam.near_distance);
-	q = m + u * left + v * right;
+	q = m + u * left + v * top;
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
 	e = cam.position;
@@ -45,14 +45,10 @@ void CameraHandler::render()
 		for (int i = 0; i < nx; i++) {
 			r = generateRay(i, j);
 			Vec3f rgbf = r.calculateColor(camera.near_distance);
-			Vec3i rgbi;
 			// min max might be checked if neccessary and not checked in calculate color
-			rgbi.x = rgbf.x;
-			rgbi.y = rgbf.y;
-			rgbi.z = rgbf.z;
-			image[ny * j +  i] = rgbi.x;
-			image[ny * j + i] = rgbi.y;
-			image[ny * j + i] = rgbi.z;
+			image[ny * j +  i] = rgbf.x;
+			image[ny * j + i + 1] = rgbf.y;
+			image[ny * j + i + 2] = rgbf.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
