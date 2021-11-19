@@ -19,10 +19,10 @@ Vec3f operator +(Vec3f lhs, const Vec3f& rhs);
 Vec3f operator -(Vec3f lhs, const Vec3f& rhs);
 Vec3f operator *(Vec3f lhs, float rhs);
 Vec3f operator *(float lhs, const Vec3f& rhs);
-float dotProduct(Vec3f& lhs, Vec3f& rhs);
-Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs);
-Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs);
-float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3);
+float dotProduct(const Vec3f& lhs, const Vec3f& rhs);
+Vec3f crossProduct(const Vec3f& lhs, const Vec3f& rhs);
+Vec3f hadamardProduct(const Vec3f& lhs, const Vec3f& rhs);
+float determinant(const Vec3f& v1, const Vec3f& v2, const Vec3f& v3);
 Vec3f& normalize(Vec3f& v);
 
 

@@ -17,7 +17,7 @@ Vec3f Ray::positionT(float t)
 /* return -1 if does not intersect.
  *
 */
-float Ray::intersect(Sphere& s)
+float Ray::intersect(const Sphere& s)
 {
     Vec3f diff = s.center_vertex - this->e;
     float B = 2 * dotProduct(this->d,  diff );
@@ -32,25 +32,31 @@ float Ray::intersect(Sphere& s)
     return t1<t2 ? t1 : t2;
 }
 
-float Ray::intersect(Face& f)
+float Ray::intersect(const Face& f)
 {
     return 0;
 }
 
+float Ray::intersect(const Vec3f& position)
+{
+	return (e.x - position.x)/d.x;
+}
 
-Vec3f Ray::calculateColor(Sphere& s)
+
+Vec3f Ray::calculateColor(const Sphere& s)
 {
     return Vec3f();
 }
 
-Vec3f Ray::calculateColor(Face& f)
+Vec3f Ray::calculateColor(const Face& f)
 {
 	return Vec3f();
 }
 
-Vec3f Ray::calculateColor(Vec3f& intersection, Vec3f& normal, Material& material)
+Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
-    return Vec3f();
+
+	return hadamardProduct(scene.ambient_light,material.ambient) + calculateDiffuse(intersection, normal, material) + calculateSpecular(intersection, normal, material);
 }
 
 Vec3f Ray::calculateColor(float minDistance)
@@ -108,17 +114,17 @@ Vec3f Ray::calculateColor(float minDistance)
     else return color;
 }
 
-Vec3f Ray::calculateDiffuse(Vec3f& intersection, Vec3f& normal, Material& material)
+Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
     return Vec3f();
 }
 
-Vec3f Ray::calculateSpecular(Vec3f& intersection, Vec3f& normal, Material& material)
+Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, const Material& material)
 {
     return Vec3f();
 }
 
-Ray Ray::generateReflection(Vec3f position, Vec3f normal)
+Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
 	return Ray();
 }

@@ -43,13 +43,13 @@ Vec3f operator*(float lhs, const Vec3f& rhs)
     return r;
 }
 
-float dotProduct(Vec3f& lhs, Vec3f& rhs)
+float dotProduct(const Vec3f& lhs, const Vec3f& rhs)
 {
     float r = lhs.x*rhs.x + lhs.y*rhs.y + lhs.z*rhs.z ;
 	return r;
 }
 
-Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs)
+Vec3f crossProduct(const Vec3f& lhs, const  Vec3f& rhs)
 {
     Vec3f r;
     r.x= lhs.y*rhs.z - lhs.z*rhs.y ;
@@ -58,7 +58,7 @@ Vec3f crossProduct(Vec3f& lhs, Vec3f& rhs)
     return r;
 }
 
-Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs)
+Vec3f hadamardProduct(const Vec3f& lhs, const Vec3f& rhs)
 {
     Vec3f r;
     r.x= lhs.x*rhs.x ;
@@ -67,7 +67,7 @@ Vec3f hadamardProduct(Vec3f& lhs, Vec3f& rhs)
     return r;
 }
 
-float determinant(Vec3f& v1, Vec3f& v2, Vec3f& v3)
+float determinant(const Vec3f& v1, const Vec3f& v2, const Vec3f& v3)
 {
     float r = v1.x*v2.y*v3.z  -  v1.x*v2.z*v3.y  -  v1.y*v2.x*v3.z  +  v1.y*v2.z*v3.x  +  v1.z*v2.x*v3.y  -  v1.z*v2.y*v3.z ;
     return r;

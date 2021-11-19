@@ -13,9 +13,9 @@ SceneHandler::SceneHandler()
     for (Triangle& t : scene.triangles) {
         t.material = scene.materials[t.material_id];
 
-        Vec3f a = t.indices.v0_id;
-        Vec3f b = t.indices.v1_id;
-        Vec3f c = t.indices.v2_id;
+        Vec3f a = parser::scene.vertex_data[ t.indices.v0_id];
+        Vec3f b = parser::scene.vertex_data[t.indices.v1_id];
+        Vec3f c = parser::scene.vertex_data[t.indices.v2_id];
 
         t.indices.normal = crossProduct((c-b), (a-b));
     }
