@@ -96,9 +96,9 @@ Vec3f Ray::calculateColor(float minDistance)
 {
 	float t = std::numeric_limits<float>::max(), tmpt = 0;
 	Vec3f color,normal,intersection;
-	color.x = 0;
-	color.y = 0;
-	color.z = 0;
+	color.x = scene.background_color.x;
+	color.y = scene.background_color.y;
+	color.z = scene.background_color.z;
 	if (recursion == -1) return color;
 	Ray newRay;
 	Sphere* sphere = nullptr;
@@ -141,9 +141,9 @@ Vec3f Ray::calculateColor(float minDistance)
 		}	
 	}
 	if (intersected == false) {
-		color.x = 0;
-		color.y = 0;
-		color.z = 0;
+		color.x = scene.background_color.x;
+		color.y = scene.background_color.y;
+		color.z = scene.background_color.z;
 		return color;
 	}
 	intersection = positionT(t);
