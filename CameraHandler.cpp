@@ -1,6 +1,8 @@
 #include "CameraHandler.h"
 #include "ppm.h"
-
+#include <iostream>
+#include "math.h"
+using namespace std;
 CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 {
 	w = -1 * camera.gaze;
@@ -48,10 +50,15 @@ void CameraHandler::render()
 			}
 			r = generateRay(i, j);
 			Vec3f rgbf = r.calculateColor(camera.near_distance);
-			// min max might be checked if neccessary and not checked in calculate color
-			image[ny * j +  i] = rgbf.x;
-			image[ny * j + i + 1] = rgbf.y;
-			image[ny * j + i + 2] = rgbf.z;
+			if (rgbf.x < 0 || rgbf.x > 255 || rgbf.y < 0 || rgbf.y > 255 || rgbf.z < 0 || rgbf.z > 255) {
+				rgbf.x = min(255, max(0,(int) rgbf.x));
+				rgbf.y = min(255, max(0, (int)rgbf.y));
+				rgbf.z = min(255, max(0, (int)rgbf.z));
+			}
+			// min max might be checked if neccessary if not checked in calculate color
+			image[(ny * j +  i)*3] = rgbf.x;
+			image[(ny * j + i)*3 + 1] = rgbf.y;
+			image[(ny * j + i)*3 + 2] = rgbf.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
