@@ -173,6 +173,9 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
 			diffuse = diffuse + diffuseAdd;
 		}
+		else {
+			int bp = 0;
+		}
 	}
     return hadamardProduct( diffuse,material.diffuse);
 }
