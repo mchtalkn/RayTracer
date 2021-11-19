@@ -143,7 +143,7 @@ Vec3f Ray::calculateColor(float minDistance)
 		return color;
 	}
 	color = calculateColor(intersection, normal, *material);
-	if (recursion != 0 && !material->is_mirror ) {
+	if (recursion != 0 && material->is_mirror ) {
 		newRay = generateReflection(intersection, normal);
 		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
 		return color + hadamardProduct(reflectionColor, material->mirror);

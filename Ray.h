@@ -16,7 +16,7 @@ public:
     float intersect(const Face& f);
 	float intersect(const Vec3f& position);
 
-	bool checkObstacle(float minDistance, float maxDistance); //
+	bool checkObstacle(float minDistance, float maxDistance); // Checks wheter thereis an obstacle between given distances for a ray or not
 
 	Vec3f calculateColor(const Sphere& s);// returns: RGB
 	Vec3f calculateColor(const Face& f);
