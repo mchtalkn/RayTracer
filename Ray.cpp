@@ -82,8 +82,8 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 
 Vec3f Ray::calculateColor(float minDistance)
 {
-	float t = std::numeric_limits<float>::max(), tmpt = 0,reflectionConstant;
-	Vec3f color,normal,intersection,position;
+	float t = std::numeric_limits<float>::max(), tmpt = 0;
+	Vec3f color,normal,intersection;
 	color.x = 0;
 	color.y = 0;
 	color.z = 0;
@@ -134,6 +134,7 @@ Vec3f Ray::calculateColor(float minDistance)
 		color.z = 0;
 		return color;
 	}
+	intersection = positionT(t);
 	color = calculateColor(intersection, normal, *material);
 	if (recursion != 0 && material->is_mirror ) {
 		newRay = generateReflection(intersection, normal);

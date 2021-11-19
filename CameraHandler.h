@@ -15,5 +15,6 @@ public:
 	Ray generateRay(int i, int j);
 	Ray generateRay(); //not needed
 	void render();
+	~CameraHandler();
 
 };

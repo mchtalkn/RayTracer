@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
             image[i++] = BAR_COLOR[colIdx][2];
         }
     }
-   
+    free(image);
     //swrite_ppm("/Users/selin/Desktop/477\\ HW1/git", image, width, height);
     //Vec3f r,l,v;
     //r.y = 3;

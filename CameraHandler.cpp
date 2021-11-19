@@ -39,11 +39,6 @@ Ray CameraHandler::generateRay()
 void CameraHandler::render()
 {
 	Ray r;
-	float t,tmpt;
-	Sphere* sphere = nullptr;
-	Triangle* triange = nullptr;
-	Mesh* mesh=nullptr;
-	int sphereid, triangeid, mehsid,bestType = 0;
 	for (int j = 0; j < ny; j++) {
 		for (int i = 0; i < nx; i++) {
 			r = generateRay(i, j);
@@ -57,4 +52,9 @@ void CameraHandler::render()
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
+}
+
+CameraHandler::~CameraHandler()
+{
+	free(image);
 }
