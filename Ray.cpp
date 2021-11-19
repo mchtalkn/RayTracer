@@ -41,14 +41,34 @@ float Ray::intersect(const Sphere& s)
 float Ray::intersect(const Face& f)
 {
     float product = dotProduct( f.normal, this->d);
-    if( product < scene.shadow_ray_epsilon && product >= 0) {
+    if( product < scene.shadow_ray_epsilon ) {
         LOG_ERR("perpendicular face and normal") ;
         return -1;
     }
-    Vec3f a = scene.vertex_data[f.v0_id];
+    Vec3f a = scene.vertex_data[f.v0_id - 1 ];
+    Vec3f b = scene.vertex_data[f.v1_id - 1 ];
+    Vec3f c = scene.vertex_data[f.v2_id - 1 ];
     float t = (dotProduct(f.normal , (a-this->e))) / product;
+
     // TO DO: check if the intersection is inside triangle.
-    return t;
+    Vec3f point = e+d*t;
+    // check vertex c and point on the same direction of ab
+    Vec3f vp = crossProduct(point-b , a-b);
+    Vec3f vc = crossProduct(c-b, a-b);
+    if(dotProduct(vp, vc) > 0){
+        // check vertex a and point on the same direction of bc
+        Vec3f vp_2 = crossProduct(point-c , b-c);
+        Vec3f va_2 = crossProduct(a-c, b-c);
+        if(dotProduct(vp_2, va_2) > 0){
+            // check vertex b and point on the same direction of ca
+            Vec3f vp_3 = crossProduct(point-a , c-a);
+            Vec3f vb_3 = crossProduct(b-a, c-a);
+            if(dotProduct(vp_3, vb_3) > 0){
+                return t;
+            }
+        }
+    }
+    return -1;
 }
 
 float Ray::intersect(const Vec3f& position)
