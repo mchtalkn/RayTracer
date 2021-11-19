@@ -5,7 +5,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 {
 	w = -1 * camera.gaze;
 	v = camera.up;
-	u = crossProduct(u, w);
+	u = crossProduct(v, w);
 	float left, right, top, bottom;
 	left = cam.near_plane.x;
 	right = cam.near_plane.y;
