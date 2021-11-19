@@ -5,7 +5,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 {
 	w = -1 * camera.gaze;
 	v = camera.up;
-	u = crossProduct(u, w);
+	u = crossProduct(v, w);
 	float left, right, top, bottom;
 	left = cam.near_plane.x;
 	right = cam.near_plane.y;
@@ -16,7 +16,9 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
 	e = cam.position;
-	image =(Vec3i*)malloc(sizeof(Vec3f)*nx*ny);
+	nx = cam.image_width;
+	ny = cam.image_height;
+	image = new unsigned char[nx*ny*3];
 }
 
 Ray CameraHandler::generateRay(int i, int j)
@@ -39,11 +41,6 @@ Ray CameraHandler::generateRay()
 void CameraHandler::render()
 {
 	Ray r;
-	float t,tmpt;
-	Sphere* sphere = nullptr;
-	Triangle* triange = nullptr;
-	Mesh* mesh=nullptr;
-	int sphereid, triangeid, mehsid,bestType = 0;
 	for (int j = 0; j < ny; j++) {
 		for (int i = 0; i < nx; i++) {
 			r = generateRay(i, j);
@@ -53,8 +50,11 @@ void CameraHandler::render()
 			rgbi.x = rgbf.x;
 			rgbi.y = rgbf.y;
 			rgbi.z = rgbf.z;
-			image[ny * j + nx * i] = rgbi;
+			image[ny * j +  i] = rgbi.x;
+			image[ny * j + i] = rgbi.y;
+			image[ny * j + i] = rgbi.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
 }
+

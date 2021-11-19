@@ -367,3 +367,7 @@ sample_scenes_v2
 myout
 raytracer.cpp
 CMakeFiles
+/CMakeCache.txt
+/raytracer
+cmake_install.cmake
+Makefile

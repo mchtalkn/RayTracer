@@ -5,7 +5,7 @@ using namespace parser;
 class CameraHandler
 {
 public:
-	Vec3i* image;
+	unsigned char* image;
 	Camera& camera;
 	Vec3f q,u,v,w,e;
 	int nx, ny;
@@ -15,5 +15,4 @@ public:
 	Ray generateRay(int i, int j);
 	Ray generateRay(); //not needed
 	void render();
-
 };

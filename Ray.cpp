@@ -1,6 +1,7 @@
 #include "Ray.h"
 #include "Algebra.h"
 #include "math.h"
+#include <limits>
 using namespace std;
 using namespace parser;
 Ray::Ray()
@@ -11,9 +12,9 @@ Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.m
 {
 }
 
-Vec3f Ray::positionT(float t)
+inline Vec3f Ray::positionT(float t)
 {
-    return Vec3f();
+    return e+d*t;
 }
 
 /* return -1 if does not intersect.
@@ -53,7 +54,7 @@ float Ray::intersect(const Vec3f& position)
 
 bool Ray::checkObstacle(float minDistance, float maxDistance)
 {
-	float t;
+	float t = std::numeric_limits<float>::max();
 	for (Sphere& s : parser::scene.spheres) {
 		t = intersect(s);
 		if (t > minDistance && t < maxDistance) {
@@ -79,15 +80,6 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 }
 
 
-Vec3f Ray::calculateColor(const Sphere& s)
-{
-    return Vec3f();
-}
-
-Vec3f Ray::calculateColor(const Face& f)
-{
-	return Vec3f();
-}
 
 Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
@@ -97,8 +89,8 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 
 Vec3f Ray::calculateColor(float minDistance)
 {
-	float t, tmpt,reflectionConstant;
-	Vec3f color,normal,intersection,position;
+	float t = std::numeric_limits<float>::max(), tmpt = 0;
+	Vec3f color,normal,intersection;
 	color.x = 0;
 	color.y = 0;
 	color.z = 0;
@@ -144,13 +136,14 @@ Vec3f Ray::calculateColor(float minDistance)
 		}	
 	}
 	if (intersected == false) {
-		color.x = -1;
-		color.y = -1;
-		color.z = -1;
+		color.x = 0;
+		color.y = 0;
+		color.z = 0;
 		return color;
 	}
+	intersection = positionT(t);
 	color = calculateColor(intersection, normal, *material);
-	if (recursion != 0 && !material->is_mirror ) {
+	if (recursion != 0 && material->is_mirror ) {
 		newRay = generateReflection(intersection, normal);
 		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
 		return color + hadamardProduct(reflectionColor, material->mirror);
