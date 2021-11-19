@@ -370,4 +370,4 @@ CMakeFiles
 /raytracer
 cmake_install.cmake
 Makefile
-/mirror_spheres.ppm
+*.ppm
