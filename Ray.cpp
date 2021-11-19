@@ -128,9 +128,9 @@ Vec3f Ray::calculateColor(float minDistance)
 		}	
 	}
 	if (intersected == false) {
-		color.x = -1;
-		color.y = -1;
-		color.z = -1;
+		color.x = 0;
+		color.y = 0;
+		color.z = 0;
 		return color;
 	}
 	color = calculateColor(intersection, normal, *material);
