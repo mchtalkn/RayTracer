@@ -11,7 +11,7 @@ CameraHandler::CameraHandler(Camera& cam) : camera(cam)
 	right = cam.near_plane.y;
 	bottom = cam.near_plane.z;
 	top = cam.near_plane.w;
-	Vec3f m = cam.gaze + (cam.gaze * cam.near_distance);
+	Vec3f m = cam.position + (cam.gaze * cam.near_distance);
 	q = m + u * left + v * right;
 	suConstant = (right - left) / cam.image_width;
 	svConstant = (top - bottom) / cam.image_height;
