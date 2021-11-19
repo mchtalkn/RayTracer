@@ -365,7 +365,6 @@ FodyWeavers.xsd
 # Input and output folders ignored
 sample_scenes_v2
 myout
-raytracer.cpp
 CMakeFiles
 /CMakeCache.txt
 /raytracer
