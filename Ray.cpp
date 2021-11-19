@@ -27,16 +27,23 @@ float Ray::intersect(const Sphere& s)
     float C = dotProduct(diff, diff ) - s.radius*s.radius;
 
     float discriminant = B*B - 4*A*C;
-    if(discriminant < 0 ) return -1;
+    if(discriminant < 10^-6 ) return -1;
 
     float t1 = (-B + sqrt(discriminant) ) / (2*A) ;
     float t2 = (-B - sqrt(discriminant) ) / (2*A) ;
     return t1<t2 ? t1 : t2;
 }
 
+/* returns -1 if the plane and the ray are perpendicular.
+ * to eachother.
+*/
 float Ray::intersect(const Face& f)
 {
-    return 0;
+    float product = dotProduct( f.normal, this->d);
+    if( product < 10^-6) return -1;
+    Vec3f a = scene.vertex_data[f.v0_id];
+    float t = (dotProduct(f.normal , (a-this->e))) / product;
+    return t;
 }
 
 float Ray::intersect(const Vec3f& position)
