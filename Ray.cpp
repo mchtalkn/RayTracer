@@ -63,11 +63,11 @@ float Ray::intersect(const Face& f)
         // check vertex a and point on the same direction of bc
         Vec3f vp_2 = crossProduct(point-c , b-c);
         Vec3f va_2 = crossProduct(a-c, b-c);
-        if(dotProduct(vp_2, va_2) + scene.shadow_ray_epsilon > 0){
+        if(dotProduct(vp, va_2) + scene.shadow_ray_epsilon > 0){
             // check vertex b and point on the same direction of ca
             Vec3f vp_3 = crossProduct(point-a , c-a);
             Vec3f vb_3 = crossProduct(b-a, c-a);
-            if(dotProduct(vp_3, vb_3) + scene.shadow_ray_epsilon > 0){
+            if(dotProduct(vp, vb_3) + scene.shadow_ray_epsilon > 0){
                 return t;
             }
         }
