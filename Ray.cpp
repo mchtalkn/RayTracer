@@ -46,7 +46,7 @@ float Ray::intersect(const Face& f)
 	//normalize(normd);
     float product = dotProduct( f.normal, this->d);
     if( product < scene.shadow_ray_epsilon && product > -1*scene.shadow_ray_epsilon ) {
-        LOG_ERR("perpendicular face and normal") ;
+        //LOG_ERR("perpendicular face and normal") ;
         return -1;
     }
     Vec3f a = scene.vertex_data[f.v0_id - 1 ];

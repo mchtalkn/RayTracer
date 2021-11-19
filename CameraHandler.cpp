@@ -30,7 +30,7 @@ Ray CameraHandler::generateRay(int i, int j)
 	su = (i + 0.5) * suConstant;
 	sv = (j + 0.5) * svConstant;
 	s = q + u * su - v * sv;
-	Ray ray(e, s);
+	Ray ray(e, s - e);
 	return ray;
 }
 
@@ -49,7 +49,7 @@ void CameraHandler::render()
 				int tmp = 0;
 			}
 			r = generateRay(i, j);
-			Vec3f rgbf = r.calculateColor(camera.near_distance);
+			Vec3f rgbf = r.calculateColor(1); // as rays are not normalized it should be 1 not neardistance
 			if (rgbf.x < 0 || rgbf.x > 255 || rgbf.y < 0 || rgbf.y > 255 || rgbf.z < 0 || rgbf.z > 255) {
 				rgbf.x = min(255, max(0,(int) rgbf.x));
 				rgbf.y = min(255, max(0, (int)rgbf.y));
