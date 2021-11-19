@@ -8,20 +8,20 @@ SceneHandler::SceneHandler(string input)
 		cameras.push_back(CameraHandler(c));
 	}
     for (Sphere& s : scene.spheres) {
-        s.center_vertex = scene.vertex_data[s.center_vertex_id];
-        s.material = scene.materials[s.material_id];
+        s.center_vertex = scene.vertex_data[s.center_vertex_id - 1];
+        s.material = scene.materials[s.material_id - 1];
     }
     for (Triangle& t : scene.triangles) {
-        t.material = scene.materials[t.material_id];
+        t.material = scene.materials[t.material_id - 1];
 
-        Vec3f a = parser::scene.vertex_data[ t.indices.v0_id];
-        Vec3f b = parser::scene.vertex_data[t.indices.v1_id];
-        Vec3f c = parser::scene.vertex_data[t.indices.v2_id];
+        Vec3f a = parser::scene.vertex_data[ t.indices.v0_id - 1];
+        Vec3f b = parser::scene.vertex_data[t.indices.v1_id - 1];
+        Vec3f c = parser::scene.vertex_data[t.indices.v2_id - 1];
 
         t.indices.normal = crossProduct((c-b), (a-b));
     }
     for (Mesh& m : scene.meshes) {
-        m.material = scene.materials[m.material_id];
+        m.material = scene.materials[m.material_id - 1];
     }
 }
 

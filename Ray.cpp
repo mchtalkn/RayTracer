@@ -22,16 +22,16 @@ inline Vec3f Ray::positionT(float t)
 */
 float Ray::intersect(const Sphere& s)
 {
-    Vec3f diff = s.center_vertex - this->e;
-    float B = 2 * dotProduct(this->d,  diff );
-    float A = dotProduct(this->d , this->d );
-    float C = dotProduct(diff, diff ) - s.radius*s.radius;
+    Vec3f diff = this->e - s.center_vertex; // o - c
+    float B = dotProduct(this->d,  diff ); // d.(o-c)
+    float A = dotProduct(this->d , this->d ); // d.d
+    float C = dotProduct(diff, diff ) - s.radius*s.radius; // (o-c).(o-c) - R^2
 
-    float discriminant = B*B - 4*A*C;
+    float discriminant = B*B - A*C;
     if(discriminant < scene.shadow_ray_epsilon ) return -1;
 
-    float t1 = (-B + sqrt(discriminant) ) / (2*A) ;
-    float t2 = (-B - sqrt(discriminant) ) / (2*A) ;
+    float t1 = (-B + sqrt(discriminant) ) / (A) ;
+    float t2 = (-B - sqrt(discriminant) ) / (A) ;
     return t1<t2 ? t1 : t2;
 }
 
@@ -113,6 +113,7 @@ Vec3f Ray::calculateColor(float minDistance)
 			t = tmpt;
 			sphere = &s;
 			material = &s.material; 
+			intersection = positionT(t);
 			normal = (intersection - sphere->center_vertex)/sphere->radius;
 			intersected = true;
 		}

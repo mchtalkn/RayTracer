@@ -54,7 +54,6 @@ void CameraHandler::render()
 				rgbf.x = min(255, max(0,(int) rgbf.x));
 				rgbf.y = min(255, max(0, (int)rgbf.y));
 				rgbf.z = min(255, max(0, (int)rgbf.z));
-				std::cout << "rgbf: " << j << ", " << i << " : " << "( " << rgbf.x << " , " << rgbf.y << " , " << rgbf.z << std::endl;
 			}
 			// min max might be checked if neccessary if not checked in calculate color
 			image[(ny * j +  i)*3] = rgbf.x;
