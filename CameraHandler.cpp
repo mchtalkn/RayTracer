@@ -63,9 +63,9 @@ void CameraHandler::render()
 				rgbf.z = min(255, max(0, (int)rgbf.z));
 			}
 			// min max might be checked if neccessary if not checked in calculate color
-			image[(ny * j +  i)*3] = rgbf.x;
-			image[(ny * j + i)*3 + 1] = rgbf.y;
-			image[(ny * j + i)*3 + 2] = rgbf.z;
+			image[(nx * j + i)*3] = rgbf.x;
+			image[(nx * j + i)*3 + 1] = rgbf.y;
+			image[(nx * j + i)*3 + 2] = rgbf.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
