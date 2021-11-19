@@ -1,11 +1,13 @@
 #include "Ray.h"
 #include "Algebra.h"
-
+#include "math.h"
+using namespace std;
+using namespace parser;
 Ray::Ray()
 {
 }
 
-Ray::Ray(Vec3f& e_, Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
+Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
 }
 
@@ -42,6 +44,33 @@ float Ray::intersect(const Vec3f& position)
 	return (e.x - position.x)/d.x;
 }
 
+bool Ray::checkObstacle(float minDistance, float maxDistance)
+{
+	float t;
+	for (Sphere& s : parser::scene.spheres) {
+		t = intersect(s);
+		if (t > minDistance && t < maxDistance) {
+			return true;
+		}
+	}
+	for (Triangle& tr : parser::scene.triangles) {
+		Face& f = tr.indices;
+		t = intersect(f);
+		if (t > minDistance && t < maxDistance) {
+			return true;
+		}
+	}
+	for (Mesh& m : parser::scene.meshes) {
+		for (Face& f : m.faces) {
+			t = intersect(f);
+			if (t > minDistance && t < maxDistance) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 
 Vec3f Ray::calculateColor(const Sphere& s)
 {
@@ -73,15 +102,15 @@ Vec3f Ray::calculateColor(float minDistance)
 	Mesh* mesh = nullptr;
 	Face* face = nullptr;
 	Material* material;
-	int bestType = 0;
-	
+	bool intersected = false;
 	for (Sphere& s : parser::scene.spheres) {
 		tmpt = intersect(s);
 		if (tmpt > minDistance && tmpt < t) {
 			t = tmpt;
 			sphere = &s;
 			material = &s.material; 
-			normal = intersection - sphere->center_vertex;
+			normal = (intersection - sphere->center_vertex)/sphere->radius;
+			intersected = true;
 		}
 	}
 	for (Triangle& tr : parser::scene.triangles) {
@@ -92,6 +121,7 @@ Vec3f Ray::calculateColor(float minDistance)
 			face = &f;
 			material = &tr.material; 
 			normal = face->normal;
+			intersected = true;
 		}
 	}
 	for (Mesh& m : parser::scene.meshes) {
@@ -102,8 +132,15 @@ Vec3f Ray::calculateColor(float minDistance)
 				face = &f;
 				material = &m.material; 
 				normal = face->normal;
+				intersected = true;
 			}
 		}	
+	}
+	if (intersected == false) {
+		color.x = -1;
+		color.y = -1;
+		color.z = -1;
+		return color;
 	}
 	color = calculateColor(intersection, normal, *material);
 	if (recursion != 0 && !material->is_mirror ) {
@@ -116,12 +153,44 @@ Vec3f Ray::calculateColor(float minDistance)
 
 Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
-    return Vec3f();
+	float cos;
+	Vec3f  diffuse;
+	diffuse.x = 0;
+	diffuse.y = 0;
+	diffuse.z = 0;
+	Vec3f diffuseAdd(diffuse);
+	for (PointLight& l : scene.point_lights) {
+		float distance = calculateDistance(l.position, intersection);
+		Ray r(intersection, (l.position - intersection) / distance);
+		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
+			cos = max((float)0.0, dotProduct(r.d, normal));
+			diffuseAdd = (cos / (distance * distance)) * l.intensity;
+			diffuse = diffuse + diffuseAdd;
+		}
+	}
+    return hadamardProduct( diffuse,material.diffuse);
 }
 
 Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, const Material& material)
 {
-    return Vec3f();
+	float cos;
+	Vec3f spec, half;
+	spec.x = 0;
+	spec.y = 0;
+	spec.z = 0;
+	Vec3f specAdd(spec);
+	for (PointLight& l : scene.point_lights) {
+		float distance = calculateDistance(l.position, intersection);
+		Ray r(intersection, (l.position - intersection) / distance);
+		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
+			half = r.d - d;
+			half = normalize(half);
+			cos = max((float)0.0, dotProduct(normal, half));
+			specAdd = (pow(cos,material.phong_exponent) / (distance * distance)) * l.intensity;
+			spec = spec + specAdd;
+		}
+	}
+    return hadamardProduct(spec, material.specular);
 }
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
