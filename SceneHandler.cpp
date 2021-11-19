@@ -1,8 +1,9 @@
 #include "SceneHandler.h"
 using namespace parser;
 Scene parser::scene;
-SceneHandler::SceneHandler()
+SceneHandler::SceneHandler(string input)
 {
+    scene.loadFromXml(input);
 	for (Camera& c : scene.cameras) {
 		cameras.push_back(CameraHandler(c));
 	}
