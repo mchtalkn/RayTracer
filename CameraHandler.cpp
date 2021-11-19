@@ -27,7 +27,7 @@ Ray CameraHandler::generateRay(int i, int j)
 	Vec3f s;
 	su = (i + 0.5) * suConstant;
 	sv = (j + 0.5) * svConstant;
-	s = q + u * su + v * sv;
+	s = q + u * su - v * sv;
 	Ray ray(e, s);
 	return ray;
 }
@@ -43,6 +43,9 @@ void CameraHandler::render()
 	Ray r;
 	for (int j = 0; j < ny; j++) {
 		for (int i = 0; i < nx; i++) {
+			if (i == nx / 2 && j == ny / 2) {
+				int tmp = 0;
+			}
 			r = generateRay(i, j);
 			Vec3f rgbf = r.calculateColor(camera.near_distance);
 			// min max might be checked if neccessary and not checked in calculate color
