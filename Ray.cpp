@@ -10,6 +10,8 @@ Ray::Ray()
 
 Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
+	d_normal = d;
+	normalize(d);
 }
 
 inline Vec3f Ray::positionT(float t)
@@ -40,30 +42,32 @@ float Ray::intersect(const Sphere& s)
 */
 float Ray::intersect(const Face& f)
 {
+	//Vec3f normd(d);
+	//normalize(normd);
     float product = dotProduct( f.normal, this->d);
-    if( product < scene.shadow_ray_epsilon ) {
+    if( product < scene.shadow_ray_epsilon && product > -1*scene.shadow_ray_epsilon ) {
         LOG_ERR("perpendicular face and normal") ;
         return -1;
     }
     Vec3f a = scene.vertex_data[f.v0_id - 1 ];
     Vec3f b = scene.vertex_data[f.v1_id - 1 ];
     Vec3f c = scene.vertex_data[f.v2_id - 1 ];
-    float t = (dotProduct(f.normal , (a-this->e))) / product;
+    float t = (dotProduct((a - this->e),f.normal)) / product;
 
     // TO DO: check if the intersection is inside triangle.
     Vec3f point = e+d*t;
     // check vertex c and point on the same direction of ab
     Vec3f vp = crossProduct(point-b , a-b);
     Vec3f vc = crossProduct(c-b, a-b);
-    if(dotProduct(vp, vc) > 0){
+    if(dotProduct(vp, vc) + scene.shadow_ray_epsilon> 0){
         // check vertex a and point on the same direction of bc
         Vec3f vp_2 = crossProduct(point-c , b-c);
         Vec3f va_2 = crossProduct(a-c, b-c);
-        if(dotProduct(vp_2, va_2) > 0){
+        if(dotProduct(vp_2, va_2) + scene.shadow_ray_epsilon > 0){
             // check vertex b and point on the same direction of ca
             Vec3f vp_3 = crossProduct(point-a , c-a);
             Vec3f vb_3 = crossProduct(b-a, c-a);
-            if(dotProduct(vp_3, vb_3) > 0){
+            if(dotProduct(vp_3, vb_3) + scene.shadow_ray_epsilon > 0){
                 return t;
             }
         }
@@ -216,7 +220,7 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 		float distance = calculateDistance(l.position, intersection);
 		Ray r(intersection, (l.position - intersection) / distance);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
-			half = r.d - d;
+			half = r.d_normal - d_normal;
 			half = normalize(half);
 			cos = max((float)0.0, dotProduct(normal, half));
 			specAdd = (pow(cos,material.phong_exponent) / (distance * distance)) * l.intensity;
@@ -228,10 +232,10 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
-	Vec3f reflectionD;
+	Vec3f d_reflection,
+	normalize(d_normal);
 	float cos = dotProduct(normal, -1 * d);
-	reflectionD = d + 2 * normal * cos;
-	Ray r(position, reflectionD);
+	Ray r(position, d + 2 * cos* normal );
 	r.recursion = recursion - 1;
 	return r;
 }

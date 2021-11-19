@@ -19,6 +19,7 @@ SceneHandler::SceneHandler(string input)
         Vec3f c = parser::scene.vertex_data[t.indices.v2_id - 1];
 
         t.indices.normal = crossProduct((c-b), (a-b));
+        normalize(t.indices.normal);
     }
     for (Mesh& m : scene.meshes) {
         m.material = scene.materials[m.material_id - 1];
@@ -28,6 +29,7 @@ SceneHandler::SceneHandler(string input)
             Vec3f c = parser::scene.vertex_data[ f.v2_id - 1];
 
             f.normal = crossProduct((c-b), (a-b));
+            normalize(f.normal);
         }
     }
 }

@@ -6,6 +6,7 @@ class Ray
 public:
 	Vec3f e;
 	Vec3f d;
+	Vec3f d_normal;
 	int recursion;
 	Ray();
 	Ray(const Vec3f& e, const Vec3f& d);
