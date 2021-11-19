@@ -53,7 +53,7 @@ void CameraHandler::render()
 			if ( (i == 0) && (((j*100) % ny/100*100) == 0)) {
 				auto t_end = std::chrono::high_resolution_clock::now();
 				double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-				cout << "rendering... %" << ((j * 100) / nx) << " completed elapsed time: "<< elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
+				cout << "rendering... %" << ((j * 100) / nx) << " completed elapsed time: "<<(int) elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
 			}
 			r = generateRay(i, j);
 			Vec3f rgbf = r.calculateColor(1); // as rays are not normalized it should be 1 not neardistance
