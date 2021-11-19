@@ -41,7 +41,7 @@ float Ray::intersect(const Sphere& s)
 float Ray::intersect(const Face& f)
 {
     float product = dotProduct( f.normal, this->d);
-    if( product < scene.shadow_ray_epsilon) return -1;
+    if( product < scene.shadow_ray_epsilon && product >= 0) return -1;
     Vec3f a = scene.vertex_data[f.v0_id];
     float t = (dotProduct(f.normal , (a-this->e))) / product;
     // TO DO: check if the intersection is inside triangle.
