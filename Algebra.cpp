@@ -2,6 +2,7 @@
 // Created by Selin Yıldırım on 13.11.2021.
 //
 #include "Algebra.h"
+#include "math.h"
 
 using namespace std;
 #define LOG_ERR(message) cout << endl << message << endl;
@@ -34,6 +35,15 @@ Vec3f operator*(Vec3f lhs, float rhs)
     return r;
 }
 
+Vec3f operator/(Vec3f lhs, float rhs)
+{
+    Vec3f r;
+    r.x = lhs.x / rhs;
+    r.y = lhs.y / rhs;
+    r.z = lhs.z / rhs;
+    return r;
+}
+
 Vec3f operator*(float lhs, const Vec3f& rhs)
 {
     Vec3f r;
@@ -41,6 +51,15 @@ Vec3f operator*(float lhs, const Vec3f& rhs)
     r.y = lhs * rhs.y;
     r.z = lhs * rhs.z;
     return r;
+}
+/*
+* calculates distance between two coordinates
+*/
+float calculateDistance(const Vec3f& source, const Vec3f& destination)
+{
+    Vec3f r = source - destination;
+    
+    return sqrt(r.x*r.x+r.y*r.y+r.z*r.z);
 }
 
 float dotProduct(const Vec3f& lhs, const Vec3f& rhs)
