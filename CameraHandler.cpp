@@ -50,10 +50,10 @@ void CameraHandler::render()
 	Ray r;
 	for (int j = 0; j < ny; j++) {
 		for (int i = 0; i < nx; i++) {
-			if ( (i == 0) && (((j*100) % ny/100*100) == 0)) {
+			if ( (i == 0) && (((j*100) % nx/100*100) == 0)) {
 				auto t_end = std::chrono::high_resolution_clock::now();
 				double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-				cout << "rendering... %" << ((j * 100) / nx) << " completed elapsed time: "<<(int) elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
+				cout << "rendering... %" << ((j * 100) / (nx / 100 * 100)) << " completed elapsed time: "<<(int) elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
 			}
 			r = generateRay(i, j);
 			Vec3f rgbf = r.calculateColor(1); // as rays are not normalized it should be 1 not neardistance
@@ -63,9 +63,9 @@ void CameraHandler::render()
 				rgbf.z = min(255, max(0, (int)rgbf.z));
 			}
 			// min max might be checked if neccessary if not checked in calculate color
-			image[(ny * j +  i)*3] = rgbf.x;
-			image[(ny * j + i)*3 + 1] = rgbf.y;
-			image[(ny * j + i)*3 + 2] = rgbf.z;
+			image[(nx * j + i)*3] = rgbf.x;
+			image[(nx * j + i)*3 + 1] = rgbf.y;
+			image[(nx * j + i)*3 + 2] = rgbf.z;
 		}
 	}
 	write_ppm(camera.image_name.c_str(),(unsigned char*) image, camera.image_width, camera.image_height);
