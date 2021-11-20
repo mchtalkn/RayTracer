@@ -104,3 +104,11 @@ Vec3f& normalize(Vec3f& v)
     return v;
 }
 
+Vec3f& limitColorRange(Vec3f& v)
+{
+    v.x = min((float)255, max((float)0, v.x));
+    v.y = min((float)255, max((float)0, v.y));
+    v.y = min((float)255, max((float)0, v.y));
+    return v;
+}
+

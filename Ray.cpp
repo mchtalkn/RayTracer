@@ -30,7 +30,7 @@ float Ray::intersect(const Sphere& s)
     float C = dotProduct(diff, diff ) - s.radius*s.radius; // (o-c).(o-c) - R^2
 
     float discriminant = B*B - A*C;
-    if(discriminant < epsilon ) return -1;
+    if(discriminant < -1 * epsilon ) return -1;
 
     float t1 = (-B + sqrt(discriminant) ) / (A) ;
     float t2 = (-B - sqrt(discriminant) ) / (A) ;
@@ -105,9 +105,6 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 			Vec3f p = e + d * t;
 			if (t > minDistance && t < maxDistance) {
 				float dp = dotProduct(d,f.normal );
-				if (dp > 0) {
-					continue;
-				}
 				return true;
 			}
 		}
@@ -203,14 +200,18 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 		Ray r(intersection, l.position - intersection);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
 			cos = max((float)0.0, dotProduct(r.d, normal));
+			if (cos > 1 || cos < -1 * epsilon) {
+				int bp = 0;
+			}
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
+			//diffuseAdd = hadamardProduct(diffuseAdd, material.diffuse);
+			//limitColorRange(diffuseAdd);
 			diffuse = diffuse + diffuseAdd;
 		}
-		else {
-			int bp = 0;
-		}
 	}
-    return hadamardProduct( diffuse,material.diffuse);
+	diffuse = hadamardProduct(diffuse, material.diffuse);
+	//limitColorRange(diffuse);
+	return diffuse;
 }
 
 Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, const Material& material)
@@ -225,14 +226,23 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 		float distance = calculateDistance(l.position, intersection);
 		Ray r(intersection, (l.position - intersection) / distance);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
+
 			half = r.d - d;
 			half = normalize(half);
 			cos = max((float)0.0, dotProduct(normal, half));
+			float cosNormal = dotProduct(normal, r.d);
+			if (cosNormal < -1 * epsilon) {
+				continue;
+			}
 			specAdd = (pow(cos,material.phong_exponent) / (distance * distance)) * l.intensity;
+			//specAdd = hadamardProduct(specAdd, material.specular);
+			//limitColorRange(specAdd);
 			spec = spec + specAdd;
 		}
 	}
-    return hadamardProduct(spec, material.specular);
+	spec = hadamardProduct(spec, material.specular);
+	//limitColorRange(spec);
+    return spec;
 }
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)

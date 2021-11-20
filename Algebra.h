@@ -28,6 +28,6 @@ Vec3f crossProduct(const Vec3f& lhs, const Vec3f& rhs);
 Vec3f hadamardProduct(const Vec3f& lhs, const Vec3f& rhs);
 float determinant(const Vec3f& v1, const Vec3f& v2, const Vec3f& v3);
 Vec3f& normalize(Vec3f& v);
-
+Vec3f& limitColorRange(Vec3f& v); // 0<color.{r,g,b}<255
 
 #endif //GIT_ALGEBRA_H

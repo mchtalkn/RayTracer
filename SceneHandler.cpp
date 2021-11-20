@@ -1,10 +1,11 @@
 #include "SceneHandler.h"
 using namespace parser;
 Scene parser::scene;
-float parser::epsilon = 0.000000001;
+float parser::epsilon;
 SceneHandler::SceneHandler(string input)
 {
     scene.loadFromXml(input);
+    epsilon = scene.shadow_ray_epsilon * 0.00000000001;
 	for (Camera& c : scene.cameras) {
 		cameras.push_back(CameraHandler(c));
 	}
