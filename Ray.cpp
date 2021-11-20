@@ -10,7 +10,7 @@ Ray::Ray()
 
 Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
-	d_normal = d;
+	//selincikkk:D
 	normalize(d);
 }
 
@@ -30,7 +30,7 @@ float Ray::intersect(const Sphere& s)
     float C = dotProduct(diff, diff ) - s.radius*s.radius; // (o-c).(o-c) - R^2
 
     float discriminant = B*B - A*C;
-    if(discriminant < scene.shadow_ray_epsilon ) return -1;
+    if(discriminant < epsilon ) return -1;
 
     float t1 = (-B + sqrt(discriminant) ) / (A) ;
     float t2 = (-B - sqrt(discriminant) ) / (A) ;
@@ -45,7 +45,7 @@ float Ray::intersect(const Face& f)
 	//Vec3f normd(d);
 	//normalize(normd);
     float product = dotProduct( f.normal, this->d);
-    if( product < scene.shadow_ray_epsilon && product > -1*scene.shadow_ray_epsilon ) {
+    if( product < epsilon && product > -1*epsilon ) {
         //LOG_ERR("perpendicular face and normal") ;
         return -1;
     }
@@ -59,15 +59,15 @@ float Ray::intersect(const Face& f)
     // check vertex c and point on the same direction of ab
     Vec3f vp = crossProduct(point-b , a-b);
     Vec3f vc = crossProduct(c-b, a-b);
-    if(dotProduct(vp, vc) + scene.shadow_ray_epsilon> 0){
+    if(dotProduct(vp, vc) + epsilon> 0){
         // check vertex a and point on the same direction of bc
         Vec3f vp_2 = crossProduct(point-c , b-c);
         Vec3f va_2 = crossProduct(a-c, b-c);
-        if(dotProduct(vp_2, va_2) + scene.shadow_ray_epsilon > 0){
+        if(dotProduct(vp_2, va_2) +epsilon > 0){
             // check vertex b and point on the same direction of ca
             Vec3f vp_3 = crossProduct(point-a , c-a);
             Vec3f vb_3 = crossProduct(b-a, c-a);
-            if(dotProduct(vp_3, vb_3) + scene.shadow_ray_epsilon > 0){
+            if(dotProduct(vp_3, vb_3) +epsilon > 0){
                 return t;
             }
         }
