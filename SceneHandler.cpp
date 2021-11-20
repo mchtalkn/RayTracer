@@ -1,6 +1,7 @@
 #include "SceneHandler.h"
 using namespace parser;
 Scene parser::scene;
+float parser::epsilon = 0.000001;
 SceneHandler::SceneHandler(string input)
 {
     scene.loadFromXml(input);

@@ -106,6 +106,7 @@ namespace parser
         void loadFromXml(const std::string &filepath);
     };    
     extern Scene scene;
+    extern float epsilon;
 }
 
 #endif

@@ -56,7 +56,7 @@ void CameraHandler::render()
 				cout << "rendering... %" << ((j * 100) / (nx / 100 * 100)) << " completed elapsed time: "<<(int) elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
 			}
 			r = generateRay(i, j);
-			Vec3f rgbf = r.calculateColor(1); // as rays are not normalized it should be 1 not neardistance
+			Vec3f rgbf = r.calculateColor(camera.near_distance); 
 			if (rgbf.x < 0 || rgbf.x > 255 || rgbf.y < 0 || rgbf.y > 255 || rgbf.z < 0 || rgbf.z > 255) {
 				rgbf.x = min(255, max(0,(int) rgbf.x));
 				rgbf.y = min(255, max(0, (int)rgbf.y));
