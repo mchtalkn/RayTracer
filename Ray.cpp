@@ -10,7 +10,6 @@ Ray::Ray()
 
 Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
-	d_normal = d;
 	normalize(d);
 }
 
@@ -102,7 +101,12 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 	for (Mesh& m : parser::scene.meshes) {
 		for (Face& f : m.faces) {
 			t = intersect(f);
+			Vec3f p = e + d * t;
 			if (t > minDistance && t < maxDistance) {
+				float dp = dotProduct(d,f.normal );
+				if (dp > 0) {
+					continue;
+				}
 				return true;
 			}
 		}
@@ -195,7 +199,7 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 	Vec3f diffuseAdd(diffuse);
 	for (PointLight& l : scene.point_lights) {
 		float distance = calculateDistance(l.position, intersection);
-		Ray r(intersection, (l.position - intersection) / distance);
+		Ray r(intersection, l.position - intersection);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
 			cos = max((float)0.0, dotProduct(r.d, normal));
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
@@ -220,7 +224,7 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 		float distance = calculateDistance(l.position, intersection);
 		Ray r(intersection, (l.position - intersection) / distance);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
-			half = r.d_normal - d_normal;
+			half = r.d - d;
 			half = normalize(half);
 			cos = max((float)0.0, dotProduct(normal, half));
 			specAdd = (pow(cos,material.phong_exponent) / (distance * distance)) * l.intensity;
@@ -232,8 +236,7 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
-	Vec3f d_reflection,
-	normalize(d_normal);
+	Vec3f d_reflection;
 	float cos = dotProduct(normal, -1 * d);
 	Ray r(position, d + 2 * cos* normal );
 	r.recursion = recursion - 1;
