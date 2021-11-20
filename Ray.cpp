@@ -10,6 +10,7 @@ Ray::Ray()
 
 Ray::Ray(const Vec3f& e_, const Vec3f& d_):e(e_),d(d_),recursion(parser::scene.max_recursion_depth)
 {
+	//selincikkk:D
 	normalize(d);
 }
 
