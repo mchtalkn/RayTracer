@@ -204,13 +204,10 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 				int bp = 0;
 			}
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
-			//diffuseAdd = hadamardProduct(diffuseAdd, material.diffuse);
-			//limitColorRange(diffuseAdd);
 			diffuse = diffuse + diffuseAdd;
 		}
 	}
 	diffuse = hadamardProduct(diffuse, material.diffuse);
-	//limitColorRange(diffuse);
 	return diffuse;
 }
 
@@ -235,13 +232,10 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 				continue;
 			}
 			specAdd = (pow(cos,material.phong_exponent) / (distance * distance)) * l.intensity;
-			//specAdd = hadamardProduct(specAdd, material.specular);
-			//limitColorRange(specAdd);
 			spec = spec + specAdd;
 		}
 	}
 	spec = hadamardProduct(spec, material.specular);
-	//limitColorRange(spec);
     return spec;
 }
 
