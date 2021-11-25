@@ -191,9 +191,12 @@ Vec3f Ray::calculateColor(float minDistance)
 	for (Mesh& m : parser::scene.meshes) {
 		for (Face& f : m.faces) {
 			tmpt = intersect(f);
+			Vec3f p = e + d * tmpt;
 			if (tmpt > minDistance && tmpt < t) {
+				cout << tmpt << endl;
 				t = tmpt;
 				face = &f;
+				mesh = &m;
 				material = &m.material; 
 				normal = face->normal;
 				intersected = true;
@@ -229,9 +232,6 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 		Ray r(intersection, l.position - intersection);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
 			cos = max((float)0.0, dotProduct(r.d, normal));
-			if (cos > 1 || cos < -1 * epsilon) {
-				int bp = 0;
-			}
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
 			//diffuseAdd = hadamardProduct(diffuseAdd, material.diffuse);
 			//limitColorRange(diffuseAdd);
@@ -276,7 +276,6 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
-	Vec3f d_reflection;
 	float cos = dotProduct(normal, -1 * d);
 	Ray r(position, d + 2 * cos* normal );
 	r.recursion = recursion - 1;

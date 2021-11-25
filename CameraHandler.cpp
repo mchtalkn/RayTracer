@@ -44,19 +44,12 @@ Ray CameraHandler::generateRay()
 }
 
 void CameraHandler::render()
-{
-	auto t_start = std::chrono::high_resolution_clock::now();
-	
+{	
 	cout << "rendering for file: " << camera.image_name<< " started at time" << endl;
 	Ray r1, r2, r3, r4;
 	int i,j;
 	for ( j = 0; j < ny; j++) {
 		for ( i = 0; i < nx-3; i+=4) {
-			/*if ( (i == 0) && (((j*100) % nx/100*100) == 0)) {
-				auto t_end = std::chrono::high_resolution_clock::now();
-				double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-				cout << "rendering... %" << ((j * 100) / (nx / 100 * 100)) << " completed elapsed time: "<<(int) elapsed_time_ms/60/1000 << " minutes "<< ((int)elapsed_time_ms/1000%60)<<" seconds " << endl;
-			}*/
 			r1 = generateRay(i, j);
             r2 = generateRay(i+1, j);
             r3 = generateRay(i+2, j);
