@@ -44,9 +44,7 @@ Ray CameraHandler::generateRay()
 }
 
 void CameraHandler::render()
-{
-	auto t_start = std::chrono::high_resolution_clock::now();
-	
+{	
 	cout << "rendering for file: " << camera.image_name<< " started at time" << endl;
 	Ray r1, r2, r3, r4;
 	int i,j;

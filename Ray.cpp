@@ -116,6 +116,35 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 
 Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const Material& material)
 {
+	Vec3f ambient = hadamardProduct(scene.ambient_light, material.ambient);
+	Vec3f spec = { 0,0,0 }, diffuse = { 0,0,0 }, specAdd = { 0,0,0 }, diffuseAdd = { 0,0,0 },half;
+	float cos, cosNormal;
+	for (PointLight& l : scene.point_lights) {
+		float distance = calculateDistance(l.position, intersection);
+		Ray r(intersection, l.position - intersection);
+		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
+			cos = max((float)0.0, dotProduct(r.d, normal));
+			diffuseAdd = (cos / (distance * distance)) * l.intensity;
+			//diffuseAdd = hadamardProduct(diffuseAdd, material.diffuse);
+			//limitColorRange(diffuseAdd);
+			diffuse = diffuse + diffuseAdd;
+			if (cos == 0) {
+				continue;
+			}
+			half = r.d - d;
+			normalize(half);
+			cos = max((float)0.0, dotProduct(normal, half));
+			specAdd = (pow(cos, material.phong_exponent) / (distance * distance)) * l.intensity;
+			//specAdd = hadamardProduct(specAdd, material.specular);
+			//limitColorRange(specAdd);
+			spec = spec +specAdd ;
+		}
+	}
+	diffuse = hadamardProduct(diffuse, material.diffuse);
+	spec = hadamardProduct(spec, material.specular);
+	//Vec3f total = ambient + spec + diffuse;
+	//limitColorRange(total);
+	return ambient + spec + diffuse;
 	return hadamardProduct(scene.ambient_light,material.ambient) + calculateDiffuse(intersection, normal, material) + calculateSpecular(intersection, normal, material);
 }
 
@@ -200,9 +229,6 @@ Vec3f Ray::calculateDiffuse(const Vec3f& intersection, const Vec3f& normal, cons
 		Ray r(intersection, l.position - intersection);
 		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
 			cos = max((float)0.0, dotProduct(r.d, normal));
-			if (cos > 1 || cos < -1 * epsilon) {
-				int bp = 0;
-			}
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
 			diffuse = diffuse + diffuseAdd;
 		}
@@ -241,7 +267,6 @@ Vec3f Ray::calculateSpecular(const Vec3f& intersection, const  Vec3f& normal, co
 
 Ray Ray::generateReflection(const Vec3f& position, const Vec3f& normal)
 {
-	Vec3f d_reflection;
 	float cos = dotProduct(normal, -1 * d);
 	Ray r(position, d + 2 * cos* normal );
 	r.recursion = recursion - 1;
