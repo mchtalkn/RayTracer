@@ -102,9 +102,7 @@ bool Ray::checkObstacle(float minDistance, float maxDistance)
 	for (Mesh& m : parser::scene.meshes) {
 		for (Face& f : m.faces) {
 			t = intersect(f);
-			Vec3f p = e + d * t;
 			if (t > minDistance && t < maxDistance) {
-				float dp = dotProduct(d,f.normal );
 				return true;
 			}
 		}
@@ -118,7 +116,7 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 {
 	Vec3f ambient = hadamardProduct(scene.ambient_light, material.ambient);
 	Vec3f spec = { 0,0,0 }, diffuse = { 0,0,0 }, specAdd = { 0,0,0 }, diffuseAdd = { 0,0,0 },half;
-	float cos, cosNormal;
+	float cos;
 	for (PointLight& l : scene.point_lights) {
 		float distance = calculateDistance(l.position, intersection);
 		Ray r(intersection, l.position - intersection);
@@ -161,8 +159,6 @@ Vec3f Ray::calculateColor(float minDistance)
 	if (recursion == -1) return color;
 	Ray newRay;
 	Sphere* sphere = nullptr;
-	Triangle* triange = nullptr;
-	Mesh* mesh = nullptr;
 	Face* face = nullptr;
 	Material* material;
 	bool intersected = false;
@@ -200,10 +196,12 @@ Vec3f Ray::calculateColor(float minDistance)
 			}
 		}	
 	}
-	if (intersected == false) {
-		color.x = scene.background_color.x;
-		color.y = scene.background_color.y;
-		color.z = scene.background_color.z;
+	if (intersected == false ) {
+		if (recursion == scene.max_recursion_depth) {
+			color.x = scene.background_color.x;
+			color.y = scene.background_color.y;
+			color.z = scene.background_color.z;
+		}
 		return color;
 	}
 	intersection = positionT(t);
