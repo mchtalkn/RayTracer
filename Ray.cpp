@@ -191,12 +191,9 @@ Vec3f Ray::calculateColor(float minDistance)
 	for (Mesh& m : parser::scene.meshes) {
 		for (Face& f : m.faces) {
 			tmpt = intersect(f);
-			Vec3f p = e + d * tmpt;
 			if (tmpt > minDistance && tmpt < t) {
-				cout << tmpt << endl;
 				t = tmpt;
 				face = &f;
-				mesh = &m;
 				material = &m.material; 
 				normal = face->normal;
 				intersected = true;
