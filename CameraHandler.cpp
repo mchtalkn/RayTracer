@@ -45,7 +45,7 @@ Ray CameraHandler::generateRay()
 
 void CameraHandler::render()
 {	
-	cout << "rendering for file: " << camera.image_name<< " started at time" << endl;
+	//cout << "rendering for file: " << camera.image_name<< " started at time" << endl;
 	Ray r1, r2, r3, r4;
 	int i,j;
 	for ( j = 0; j < ny; j++) {
