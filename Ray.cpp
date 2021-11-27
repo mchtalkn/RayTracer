@@ -142,8 +142,7 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 	spec = hadamardProduct(spec, material.specular);
 	//Vec3f total = ambient + spec + diffuse;
 	//limitColorRange(total);
-	if (recursion == scene.max_recursion_depth)return ambient + spec + diffuse;
-	else return spec + diffuse;
+	return ambient + spec + diffuse;
 }
 
 /* minDistance = epsilon
