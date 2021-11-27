@@ -202,6 +202,11 @@ Vec3f Ray::calculateColor(float minDistance)
 			color.y = scene.background_color.y;
 			color.z = scene.background_color.z;
 		}
+		else {
+			color.x = 0;
+			color.y = 0;
+			color.z = 0;
+		}
 		return color;
 	}
 	intersection = positionT(t);
