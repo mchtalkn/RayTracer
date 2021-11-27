@@ -5,7 +5,7 @@ float parser::epsilon;
 SceneHandler::SceneHandler(string input)
 {
     scene.loadFromXml(input);
-    epsilon = scene.shadow_ray_epsilon * 0.0000000000005;
+    epsilon =  0.0000000000000005;
 	for (Camera& c : scene.cameras) {
 		cameras.push_back(CameraHandler(c));
 	}
