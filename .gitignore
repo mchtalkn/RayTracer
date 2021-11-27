@@ -371,3 +371,5 @@ CMakeFiles
 cmake_install.cmake
 Makefile
 *.ppm
+/raytracer.tar
+/raytracer.tar.gz
