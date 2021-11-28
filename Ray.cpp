@@ -120,7 +120,7 @@ Vec3f Ray::calculateColor(const Vec3f& intersection, const Vec3f& normal, const 
 	for (PointLight& l : scene.point_lights) {
 		float distance = calculateDistance(l.position, intersection);
 		Ray r(intersection, l.position - intersection);
-		if (!r.checkObstacle(scene.shadow_ray_epsilon, distance)) {
+		if (!r.checkObstacle(epsilon, distance)) {
 			cos = max((float)0.0, dotProduct(r.d, normal));
 			diffuseAdd = (cos / (distance * distance)) * l.intensity;
 			//diffuseAdd = hadamardProduct(diffuseAdd, material.diffuse);
@@ -208,11 +208,11 @@ Vec3f Ray::calculateColor(float minDistance)
 		}
 		return color;
 	}
-	intersection = positionT(t);
+	intersection = positionT(t) + normal*scene.shadow_ray_epsilon;
 	color = calculateColor(intersection, normal, *material);
 	if (recursion != 0 && material->is_mirror ) {
 		newRay = generateReflection(intersection, normal);
-		Vec3f reflectionColor = newRay.calculateColor(parser::scene.shadow_ray_epsilon);
+		Vec3f reflectionColor = newRay.calculateColor(epsilon);
 		return color + hadamardProduct(reflectionColor, material->mirror);
 	}
     else return color;
